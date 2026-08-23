@@ -44,7 +44,7 @@ function ChatContainer() {
     <div className="w-full h-[90vh] flex flex-col">
 
       {/* Chat Area */}
-      <ChatsWindow messages={messages} isLoading={isLoading} />
+      <ChatsWindow messages={messages} isLoading={isLoading} setUserMessage={setUserMessage} />
 
       {/* Input Area */}
       <ChatInput userMessage={userMessage}

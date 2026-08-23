@@ -1,15 +1,29 @@
 import MessageBubble from "./MessageBubble";
-function ChatWindow({ messages, isLoading }) {
+import SuggestionMessages from "./SuggestionMessages";
+function ChatWindow({ messages, isLoading, setUserMessage }) {
+  const suggestions = [
+    "Find Nike running shoes under ₹3000",
+    "Show me black running shoes",
+    "Find Adidas shoes under ₹4000",
+    "Show me the cheapest running shoes",
+  ];
+  const handleSuggestion = (suggestion) => {
+    setUserMessage(suggestion);
+  };
   return (
     <section className="flex-1 overflow-y-auto scrollbar-hide w-full">
 
       <div className="max-w-4xl mx-auto px-4 py-8 space-y-6">
 
         {messages.length === 0 ? (
-          <div className="h-full flex items-center justify-center">
-            <p className="text-zinc-500 text-lg">
-              Start a conversation...
+          <div className="h-full mt-28 flex flex-col items-center justify-center">
+            <p className="text-zinc-500 text-xl">
+              What are you looking for?
             </p>
+            <SuggestionMessages suggestions={suggestions}
+              onSelect={handleSuggestion}
+
+            />
           </div>
         ) : (
           messages.map((message) => (
