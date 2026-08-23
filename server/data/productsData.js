@@ -1,4 +1,4 @@
-const products = [
+export const products = [
   {
     id: 1,
     name: "Nike Revolution 7",
@@ -424,8 +424,8 @@ const products = [
     name: "Saucony Endorphin Speed 3",
     brand: "Saucony",
     category: "Running Shoes",
-    price: 13499,
-    color: "Pink/Black",
+    price: 2499,
+    color: "red",
     sizes: [8, 9, 10],
     tags: ["nylon-plate", "tempo", "fast"],
     description: "Nylon-plated performance shoe for speedwork and race day.",
