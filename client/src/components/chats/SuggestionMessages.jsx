@@ -2,7 +2,7 @@ import { ArrowRight } from "lucide-react";
 
 function SuggestionMessages({ suggestions, onSelect }) {
   return (
-    <div className="w-full max-w-3xl mt-8 mx-auto px-4 pb-6">
+    <div className="w-full max-w-3xl mt-4 mx-auto px-4 pb-6">
       {/* Suggestions */}
       <div className="grid grid-cols-1 gap-3">
         {suggestions.map((suggestion, index) => (
