@@ -16,7 +16,7 @@ function ChatWindow({ messages, isLoading, setUserMessage }) {
       <div className="max-w-4xl mx-auto px-4 py-8 space-y-6">
 
         {messages.length === 0 ? (
-          <div className="h-full mt-28 flex flex-col items-center justify-center">
+          <div className="h-full mt-8 flex flex-col items-center justify-center">
             <p className="text-zinc-500 text-xl">
               What are you looking for?
             </p>
