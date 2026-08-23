@@ -1,5 +1,4 @@
 import MessageBubble from "./MessageBubble";
-
 function ChatWindow({ messages, isLoading }) {
   return (
     <section className="flex-1 overflow-y-auto scrollbar-hide w-full">

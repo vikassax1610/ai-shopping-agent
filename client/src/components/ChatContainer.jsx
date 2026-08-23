@@ -30,7 +30,8 @@ function ChatContainer() {
           id: Date.now(),
           role: "assistant",
           content: response.data.message,
-        },
+          products: response.data.products || []
+        }
       ]);
     } catch (error) {
       console.error(error);
