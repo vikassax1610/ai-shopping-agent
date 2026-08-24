@@ -2,38 +2,53 @@ import products from "../data/productsData.js";
 
 const searchProducts = ({
   category,
+  gender,
   color,
   maxPrice,
   minPrice,
-  brand,
+  minRating,
+  isNew,
+  isBestSeller
 }) => {
   return products.filter((product) => {
-    const matchedBrand =
-      !brand ||
-      product.brand.toLowerCase().includes(brand.toLowerCase());
+    const matchedCategory =
+      !category ||
+      product.category?.toLowerCase().includes(category.toLowerCase());
+
+    const matchedGender =
+      !gender ||
+      product.gender?.toLowerCase() === gender.toLowerCase();
 
     const matchedColor =
       !color ||
-      product.color.toLowerCase().includes(color.toLowerCase());
-
-    const matchedCategory =
-      !category ||
-      product.category.toLowerCase().includes(category.toLowerCase());
+      product.colors.some(
+        (productColor) =>
+          productColor?.toLowerCase().includes(color.toLowerCase())
+      );
 
     const matchedMaxPrice =
-      !maxPrice ||
-      product.price <= maxPrice;
+      maxPrice == null || product.price <= maxPrice;
 
     const matchedMinPrice =
-      !minPrice ||
-      product.price >= minPrice;
+      minPrice == null || product.price >= minPrice;
 
+    const matchedRating =
+      minRating == null || product.rating >= minRating;
+
+    const matchedNew =
+      isNew == null || product.isNew === isNew;
+
+    const matchedBestSeller =
+      isBestSeller == null || product.isBestSeller === isBestSeller;
     return (
-      matchedBrand &&
-      matchedColor &&
       matchedCategory &&
+      matchedGender &&
+      matchedColor &&
       matchedMaxPrice &&
-      matchedMinPrice
+      matchedMinPrice &&
+      matchedRating &&
+      matchedNew &&
+      matchedBestSeller
     );
   });
 };

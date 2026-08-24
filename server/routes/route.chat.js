@@ -16,11 +16,17 @@ chatRoute.post("/chat", async (req, res) => {
     }
 
     const filters = await aiService.understandShoppingQuery(message);
+
     let products = [];
+
     if (filters.intent === "product_search") {
       products = searchProducts(filters);
     }
-    const aiResponse = await aiService.generateAIResponse(message, products);
+
+    const aiResponse = await aiService.generateAIResponse(
+      message,
+      products
+    );
 
     return res.status(200).json({
       message: aiResponse,
@@ -30,7 +36,6 @@ chatRoute.post("/chat", async (req, res) => {
     console.error("AI Error:", error);
 
     return res.status(500).json({
-
       message: "Error generating AI response",
       products: [],
     });

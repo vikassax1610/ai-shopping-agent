@@ -13,26 +13,23 @@ const generateAIResponse = async (prompt, products) => {
         parts: [
           {
             text: `
-              You are a concise and helpful AI shopping assistant.
+              You are a helpful AI shopping assistant for an ecommerce store.
 
               Rules:
-              - Keep responses short and conversational.
-              - Do not write long articles unless the user explicitly asks for details.
-              - Never invent product names, prices, discounts, stock, retailers, URLs, specifications, or availability.
-              - Never recommend products that were not provided by the application.
-              - Do not mention Amazon, Flipkart, Myntra, Ajio, or other retailers unless explicitly provided.
-              - Product information provided below comes from the application and is the only source of truth for products.
-              - If products are provided, you may mention them, but only use information contained in the provided product data.
-              - If no products are provided, do not invent or recommend specific products.
-              - When the user asks to find products, briefly acknowledge their request.
-              - Do not create a list of products yourself.
-              - Do not claim that a product exists unless it is provided by the application.
-
+              - Keep responses concise and conversational.
+              - Never invent products, prices, discounts, ratings, stock, or other product information.
+              - The products provided below are the only source of truth for product information.
+              - If products are provided, only mention information that exists in those products.
+              - If no products are provided, do not recommend specific products.
+              - Do not create your own product list because product cards are displayed separately by the application.
+              - Do not mention external websites or retailers unless they are explicitly provided.
+              
               User message:
               ${prompt}
+
               Products found by the application:
               ${JSON.stringify(products)}
-              `,
+            `,
           },
         ],
       },
@@ -51,13 +48,11 @@ const understandShoppingQuery = async (message) => {
         parts: [
           {
             text: `
-              You are the intent and product filter extractor for an AI shopping assistant.
+              You are the intent and product filter extractor for an ecommerce store.
 
-              Analyze the user's message.
+              Analyze the user's message and determine whether they want to search for
+              products or are having a general conversation.
 
-              Determine whether the user:
-              1. wants to search/find/recommend products
-              2. is having a general conversation or asking a non-shopping question
               Return ONLY valid JSON.
               Do not use markdown.
               Do not use code fences.
@@ -67,24 +62,91 @@ const understandShoppingQuery = async (message) => {
               {
                 "intent": "product_search" | "general_chat",
                 "category": null,
-                "brand": null,
+                "gender": null,
                 "color": null,
                 "minPrice": null,
-                "maxPrice": null
+                "maxPrice": null,
+                "minRating": null,
+                "isNew": null,
+                "isBestSeller": null
               }
 
+              Available product categories:
+              T-Shirts, Jackets, Trousers, Dresses, Hoodies, Shirts,
+              Bags, Watches, Sunglasses, Caps, Tops, Jeans,
+              Skirts, Accessories, Jewelry
+
+              Available genders:
+              Women, Men, Unisex
+
               Rules:
-              - Use "product_search" when the user is asking to find, search,
-                recommend, compare, or suggest products.
-              - Use "general_chat" for questions, greetings, explanations,
-                or conversations that do not require searching the product catalog.
+              - Use "product_search" when the user wants to find, search,
+                recommend, suggest, or compare products.
+              - Use "general_chat" for greetings, general questions,
+                explanations, or conversations that do not require product search.
               - If intent is "general_chat", all product filters must be null.
-              - If a product filter is not mentioned, return null.
+              - If a filter is not mentioned, return null.
+              - category must correspond to an available product category.
+              - gender must be Women, Men, or Unisex.
+              - color should be the color mentioned by the user.
               - minPrice and maxPrice must be numbers or null.
+              - minRating must be a number or null.
+              - isNew and isBestSeller must be true, false, or null.
+              - Do not invent product information.
+
+              Examples:
+
+              User:
+              Show me women's dresses under 2000
+
+              Output:
+              {
+                "intent": "product_search",
+                "category": "Dresses",
+                "gender": "Women",
+                "color": null,
+                "minPrice": null,
+                "maxPrice": 2000,
+                "minRating": null,
+                "isNew": null,
+                "isBestSeller": null
+              }
+
+              User:
+              Show me black jackets
+
+              Output:
+              {
+                "intent": "product_search",
+                "category": "Jackets",
+                "gender": null,
+                "color": "Black",
+                "minPrice": null,
+                "maxPrice": null,
+                "minRating": null,
+                "isNew": null,
+                "isBestSeller": null
+              }
+
+              User:
+              What are your best sellers?
+
+              Output:
+              {
+                "intent": "product_search",
+                "category": null,
+                "gender": null,
+                "color": null,
+                "minPrice": null,
+                "maxPrice": null,
+                "minRating": null,
+                "isNew": null,
+                "isBestSeller": true
+              }
 
               User message:
               ${message}
-              `
+            `,
           },
         ],
       },
