@@ -16,11 +16,15 @@ chatRoute.post("/chat", async (req, res) => {
     }
 
     const filters = await aiService.understandShoppingQuery(message);
-
+    console.log("========== AI FILTERS ==========");
+    console.log(filters);
     let products = [];
 
     if (filters.intent === "product_search") {
       products = searchProducts(filters);
+      console.log("========== FOUND PRODUCTS ==========");
+      console.log(products);
+      console.log("PRODUCT COUNT:", products.length);
     }
 
     const aiResponse = await aiService.generateAIResponse(

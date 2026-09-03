@@ -40,6 +40,9 @@ const searchProducts = ({
 
     const matchedBestSeller =
       isBestSeller == null || product.isBestSeller === isBestSeller;
+
+    // console.log("AI FILTERS:", filters);
+    // console.log("FOUND PRODUCTS:", products);
     return (
       matchedCategory &&
       matchedGender &&
